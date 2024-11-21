@@ -5,5 +5,5 @@ node_modules
 .husky/pre-message.txt
 
 # Do not ignore Husky hooks
-!.husky/commit-msg
-!.husky/pre-commit
+.husky/commit-msg
+.husky/pre-commit
