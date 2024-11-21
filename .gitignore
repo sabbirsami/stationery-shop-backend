@@ -1,4 +1,9 @@
 node_modules
 .env
-.husky/commit-msg
-.husky/pre-commit
+
+# Ignore pre-message.txt specifically
+.husky/pre-message.txt
+
+# Do not ignore Husky hooks
+!.husky/commit-msg
+!.husky/pre-commit
