@@ -15,18 +15,22 @@ export const productValidationSchema = z.object({
     .number({
       required_error: 'Price is required.',
     })
-    .min(0, ' Price cannot be less then zero'),
+    .min(0, 'Price cannot be less than zero.'),
   category: z.enum(
     ['Writing', 'Office Supplies', 'Art Supplies', 'Educational', 'Technology'],
     {
-      required_error: 'Category is require',
+      required_error: 'Category is required.',
       invalid_type_error:
         'Category must be one of Writing, Office Supplies, Art Supplies, Educational, or Technology.',
     }
   ),
-  quantity: z.number({
-    required_error: 'Quantity is required.',
-    invalid_type_error: 'Quantity must be a number',
-  }),
-  isStock: z.boolean().optional(),
+  quantity: z
+    .number({
+      required_error: 'Quantity is required.',
+      invalid_type_error: 'Quantity must be a number.',
+    })
+    .min(0, 'Quantity cannot be less than zero.'),
+  inStock: z.boolean().default(true),
 });
+
+// export type ProductValidationType = z.infer<typeof productValidationSchema>;
