@@ -63,7 +63,6 @@ productSchema.pre('save', function (next) {
         if (!newProduct.createdAt) {
             newProduct.createdAt = new Date();
         }
-        newProduct.updatedAt = new Date();
         // Update inStock based on quantity
         newProduct.inStock = newProduct.quantity > 0;
         next();

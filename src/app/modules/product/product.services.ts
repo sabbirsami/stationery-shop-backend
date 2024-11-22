@@ -73,3 +73,18 @@ export const updateProductFromDB = async (
     throw new Error(String(error));
   }
 };
+
+// DELETE PRODUCT BY ID
+
+export const deleteProductFromDB = async (productId: string) => {
+  try {
+    const result = await ProductModal.deleteOne({ _id: productId });
+
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error(String(error));
+  }
+};

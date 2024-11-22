@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getProductDetailsFromDB = exports.getAllProductFromDB = exports.createProductIntoDB = void 0;
+exports.updateProductFromDB = exports.getProductDetailsFromDB = exports.getAllProductFromDB = exports.createProductIntoDB = void 0;
 const product_model_1 = require("./product.model");
+// CREATE PRODUCT
 const createProductIntoDB = (product) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_model_1.ProductModal.create(product);
@@ -24,6 +25,7 @@ const createProductIntoDB = (product) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.createProductIntoDB = createProductIntoDB;
+// GET ALL PRODUCT / USING QUERY
 const getAllProductFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_model_1.ProductModal.find(query);
@@ -37,10 +39,10 @@ const getAllProductFromDB = (query) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getAllProductFromDB = getAllProductFromDB;
+// GET SINGLE PRODUCT BY ID
 const getProductDetailsFromDB = (productId) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_model_1.ProductModal.findById({ _id: productId });
-        console.log(result);
         return result;
     }
     catch (error) {
@@ -51,3 +53,18 @@ const getProductDetailsFromDB = (productId) => __awaiter(void 0, void 0, void 0,
     }
 });
 exports.getProductDetailsFromDB = getProductDetailsFromDB;
+// UPDATE PRODUCT BY ID
+const updateProductFromDB = (productId, updatedData) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const updatedDataWithUpdatedAtTime = Object.assign(Object.assign({}, updatedData), { updatedAt: new Date() });
+        const result = yield product_model_1.ProductModal.findByIdAndUpdate(productId, updatedDataWithUpdatedAtTime, { new: true });
+        return result;
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error(String(error));
+    }
+});
+exports.updateProductFromDB = updateProductFromDB;

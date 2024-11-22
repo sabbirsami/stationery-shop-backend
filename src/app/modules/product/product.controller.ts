@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { productValidationSchema } from './product.validations';
 import {
   createProductIntoDB,
+  deleteProductFromDB,
   getAllProductFromDB,
   getProductDetailsFromDB,
   updateProductFromDB,
@@ -141,9 +142,39 @@ const updateProduct = async (req: Request, res: Response) => {
   }
 };
 
+// DELETE PRODUCT BY ID
+const deleteProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const result = await deleteProductFromDB(productId);
+
+    // HANDLE RESPONSE
+    if (result?.deletedCount) {
+      res.status(200).json({
+        status: true,
+        message: 'Product deleted successfully',
+        data: {},
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Unable to delete product details',
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Cannot delete product details',
+      error,
+    });
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProductDetails,
   updateProduct,
+  deleteProduct,
 };
