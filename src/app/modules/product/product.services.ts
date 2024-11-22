@@ -1,3 +1,4 @@
+import { FilterQuery } from 'mongoose';
 import { ProductType } from './product.interface';
 import { ProductModal } from './product.model';
 
@@ -13,9 +14,11 @@ export const createProductIntoDB = async (product: ProductType) => {
     throw new Error(String(error));
   }
 };
-export const getAllProductFromDB = async () => {
+export const getAllProductFromDB = async (
+  query: FilterQuery<typeof ProductModal>
+) => {
   try {
-    const result = await ProductModal.find();
+    const result = await ProductModal.find(query);
     return result;
   } catch (error) {
     if (error instanceof Error) {

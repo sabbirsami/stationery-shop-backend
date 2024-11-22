@@ -60,14 +60,12 @@ const productSchema = new mongoose_1.Schema({
 productSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const newProduct = this;
-        newProduct.createdAt = new Date();
+        if (!newProduct.createdAt) {
+            newProduct.createdAt = new Date();
+        }
         newProduct.updatedAt = new Date();
-        if ((newProduct === null || newProduct === void 0 ? void 0 : newProduct.quantity) === 0) {
-            newProduct.inStock = false;
-        }
-        else {
-            newProduct.inStock = true;
-        }
+        // Update inStock based on quantity
+        newProduct.inStock = newProduct.quantity > 0;
         next();
     });
 });

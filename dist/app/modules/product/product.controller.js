@@ -49,6 +49,22 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         }
     }
 });
+const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const query = req.query;
+        console.log(query);
+        const result = yield (0, product_services_1.getAllProductFromDB)();
+        res.send(result);
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Unable to add product',
+            error,
+        });
+    }
+});
 exports.ProductController = {
     createProduct,
+    getAllProduct,
 };

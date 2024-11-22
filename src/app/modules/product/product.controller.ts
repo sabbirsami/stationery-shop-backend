@@ -38,9 +38,18 @@ const createProduct = async (req: Request, res: Response) => {
 };
 const getAllProduct = async (req: Request, res: Response) => {
   try {
-    const query = req.query;
-    console.log(query);
-    const result = await getAllProductFromDB();
+    const { searchTerm } = req.query;
+
+    const query: Record<string, unknown> = {};
+
+    if (searchTerm) {
+      query.$or = [
+        { name: { $regex: searchTerm as string, $options: 'i' } },
+        { brand: { $regex: searchTerm as string, $options: 'i' } },
+        { category: { $regex: searchTerm as string, $options: 'i' } },
+      ];
+    }
+    const result = await getAllProductFromDB(query);
     res.send(result);
   } catch (error) {
     res.status(500).json({
