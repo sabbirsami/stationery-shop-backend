@@ -51,9 +51,16 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 });
 const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const query = req.query;
-        console.log(query);
-        const result = yield (0, product_services_1.getAllProductFromDB)();
+        const { searchTerm } = req.query;
+        const query = {};
+        if (searchTerm) {
+            query.$or = [
+                { name: { $regex: searchTerm, $options: 'i' } },
+                { brand: { $regex: searchTerm, $options: 'i' } },
+                { category: { $regex: searchTerm, $options: 'i' } },
+            ];
+        }
+        const result = yield (0, product_services_1.getAllProductFromDB)(query);
         res.send(result);
     }
     catch (error) {

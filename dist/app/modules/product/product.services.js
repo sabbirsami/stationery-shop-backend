@@ -24,9 +24,9 @@ const createProductIntoDB = (product) => __awaiter(void 0, void 0, void 0, funct
     }
 });
 exports.createProductIntoDB = createProductIntoDB;
-const getAllProductFromDB = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllProductFromDB = (query) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_model_1.ProductModal.find();
+        const result = yield product_model_1.ProductModal.find(query);
         return result;
     }
     catch (error) {

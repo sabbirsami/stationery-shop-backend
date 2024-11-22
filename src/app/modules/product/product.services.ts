@@ -24,7 +24,19 @@ export const getAllProductFromDB = async (
     if (error instanceof Error) {
       throw error;
     }
+    throw new Error(String(error));
+  }
+};
 
+export const getProductDetailsFromDB = async (productId: string) => {
+  try {
+    const result = await ProductModal.findById({ _id: productId });
+    console.log(result);
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
     throw new Error(String(error));
   }
 };

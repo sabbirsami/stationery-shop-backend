@@ -1,7 +1,11 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { productValidationSchema } from './product.validations';
-import { createProductIntoDB, getAllProductFromDB } from './product.services';
+import {
+  createProductIntoDB,
+  getAllProductFromDB,
+  getProductDetailsFromDB,
+} from './product.services';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -50,7 +54,18 @@ const getAllProduct = async (req: Request, res: Response) => {
       ];
     }
     const result = await getAllProductFromDB(query);
-    res.send(result);
+    if (result) {
+      res.status(200).json({
+        status: true,
+        message: 'Product retrieved successfully',
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Unable to get product',
+      });
+    }
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -59,8 +74,34 @@ const getAllProduct = async (req: Request, res: Response) => {
     });
   }
 };
+const getSingleProductDetails = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    console.log(productId);
+    const result = await getProductDetailsFromDB(productId);
+    if (result) {
+      res.status(200).json({
+        status: true,
+        message: 'Product retrieved successfully',
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Unable to get product details',
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Cannot get product details',
+      error,
+    });
+  }
+};
 
 export const ProductController = {
   createProduct,
   getAllProduct,
+  getSingleProductDetails,
 };
