@@ -29,5 +29,11 @@ exports.productValidationSchema = zod_1.z.object({
     })
         .min(0, 'Quantity cannot be less than zero.'),
     inStock: zod_1.z.boolean().default(true),
+    createdAt: zod_1.z
+        .preprocess((value) => (typeof value === 'string' ? new Date(value) : value), zod_1.z.date())
+        .optional(),
+    updatedAt: zod_1.z
+        .preprocess((value) => (typeof value === 'string' ? new Date(value) : value), zod_1.z.date())
+        .optional(),
 });
 // export type ProductValidationType = z.infer<typeof productValidationSchema>;

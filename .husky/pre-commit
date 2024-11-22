@@ -54,5 +54,13 @@ npm run build ||
     false;
 )
 
+# npm deploy-vercel ||
+# (
+#     echo '❌ Unable to deploy
+#             Deploy Fail: View the errors above to see why.
+#     '
+#     false;
+# )
+
 # If everything passes... Now we can commit
 echo '✅✅✅✅ You win this time... I am committing this now. ✅✅✅✅'

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
 import { productValidationSchema } from './product.validations';
-import { createProductIntoDB } from './product.services';
+import { createProductIntoDB, getAllProductFromDB } from './product.services';
 
 const createProduct = async (req: Request, res: Response) => {
   try {
@@ -36,7 +36,22 @@ const createProduct = async (req: Request, res: Response) => {
     }
   }
 };
+const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const query = req.query;
+    console.log(query);
+    const result = await getAllProductFromDB();
+    res.send(result);
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Unable to add product',
+      error,
+    });
+  }
+};
 
 export const ProductController = {
   createProduct,
+  getAllProduct,
 };

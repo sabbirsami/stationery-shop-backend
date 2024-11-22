@@ -48,10 +48,20 @@ const productSchema = new mongoose_1.Schema({
         type: Boolean,
         default: true,
     },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now,
+    },
 });
 productSchema.pre('save', function (next) {
     return __awaiter(this, void 0, void 0, function* () {
         const newProduct = this;
+        newProduct.createdAt = new Date();
+        newProduct.updatedAt = new Date();
         if ((newProduct === null || newProduct === void 0 ? void 0 : newProduct.quantity) === 0) {
             newProduct.inStock = false;
         }

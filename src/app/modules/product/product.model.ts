@@ -55,13 +55,14 @@ const productSchema = new Schema<ProductType>({
 
 productSchema.pre('save', async function (next) {
   const newProduct = this as ProductDocument;
-  newProduct.createdAt = new Date();
-  newProduct.updatedAt = new Date();
-  if (newProduct?.quantity === 0) {
-    newProduct.inStock = false;
-  } else {
-    newProduct.inStock = true;
+
+  if (!newProduct.createdAt) {
+    newProduct.createdAt = new Date();
   }
+
+  newProduct.updatedAt = new Date();
+  // Update inStock based on quantity
+  newProduct.inStock = newProduct.quantity > 0;
   next();
 });
 
