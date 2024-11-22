@@ -1,6 +1,7 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import router from './app/routes';
+import errorHandler from './app/utils/errorHandler';
 
 const app: Application = express();
 
@@ -25,5 +26,7 @@ app.all('*', (req: Request, res: Response, next: NextFunction) => {
   error.status = 404;
   next(error);
 });
+
+app.use(errorHandler);
 
 export default app;

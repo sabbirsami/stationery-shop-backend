@@ -20,7 +20,6 @@ const createProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         // DO SOME CHANGES
         productData.updatedAt = new Date();
         productData.inStock = productData.quantity > 0;
-        console.log(productData);
         const validateData = product_validations_1.productValidationSchema.parse(productData);
         const result = yield (0, product_services_1.createProductIntoDB)(validateData);
         if (result) {
