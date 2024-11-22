@@ -17,14 +17,17 @@ exports.productValidationSchema = zod_1.z.object({
         .number({
         required_error: 'Price is required.',
     })
-        .min(0, ' Price cannot be less then zero'),
+        .min(0, 'Price cannot be less than zero.'),
     category: zod_1.z.enum(['Writing', 'Office Supplies', 'Art Supplies', 'Educational', 'Technology'], {
-        required_error: 'Category is require',
+        required_error: 'Category is required.',
         invalid_type_error: 'Category must be one of Writing, Office Supplies, Art Supplies, Educational, or Technology.',
     }),
-    quantity: zod_1.z.number({
+    quantity: zod_1.z
+        .number({
         required_error: 'Quantity is required.',
-        invalid_type_error: 'Quantity must be a number',
-    }),
-    isStock: zod_1.z.boolean().optional(),
+        invalid_type_error: 'Quantity must be a number.',
+    })
+        .min(0, 'Quantity cannot be less than zero.'),
+    inStock: zod_1.z.boolean().default(true),
 });
+// export type ProductValidationType = z.infer<typeof productValidationSchema>;
