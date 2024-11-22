@@ -31,6 +31,18 @@ export const productValidationSchema = z.object({
     })
     .min(0, 'Quantity cannot be less than zero.'),
   inStock: z.boolean().default(true),
+  createdAt: z
+    .preprocess(
+      (value) => (typeof value === 'string' ? new Date(value) : value),
+      z.date()
+    )
+    .optional(),
+  updatedAt: z
+    .preprocess(
+      (value) => (typeof value === 'string' ? new Date(value) : value),
+      z.date()
+    )
+    .optional(),
 });
 
 // export type ProductValidationType = z.infer<typeof productValidationSchema>;

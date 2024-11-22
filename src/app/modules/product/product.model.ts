@@ -43,10 +43,20 @@ const productSchema = new Schema<ProductType>({
     type: Boolean,
     default: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 productSchema.pre('save', async function (next) {
   const newProduct = this as ProductDocument;
+  newProduct.createdAt = new Date();
+  newProduct.updatedAt = new Date();
   if (newProduct?.quantity === 0) {
     newProduct.inStock = false;
   } else {

@@ -5,4 +5,6 @@ export type ProductType = {
   category: string;
   quantity: number;
   inStock: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
