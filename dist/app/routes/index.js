@@ -8,7 +8,7 @@ const product_routes_1 = require("../modules/product/product.routes");
 const router = express_1.default.Router();
 const moduleRoutes = [
     {
-        path: 'products',
+        path: '/products',
         route: product_routes_1.ProductRoute,
     },
 ];

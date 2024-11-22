@@ -1,5 +1,7 @@
-import { model, Schema } from 'mongoose';
+import { model, Schema, Document } from 'mongoose';
 import { ProductType } from './product.interface';
+
+interface ProductDocument extends ProductType, Document {}
 
 const productSchema = new Schema<ProductType>({
   name: {
@@ -41,6 +43,16 @@ const productSchema = new Schema<ProductType>({
     type: Boolean,
     default: true,
   },
+});
+
+productSchema.pre('save', async function (next) {
+  const newProduct = this as ProductDocument;
+  if (newProduct?.quantity === 0) {
+    newProduct.inStock = false;
+  } else {
+    newProduct.inStock = true;
+  }
+  next();
 });
 
 export const ProductModal = model('Product', productSchema);
