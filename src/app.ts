@@ -1,7 +1,7 @@
 import express, { Application, NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import router from './app/routes';
-import errorHandler from './app/utils/errorHandler';
+import errorHandler, { CustomError } from './app/utils/errorHandler';
 
 const app: Application = express();
 
@@ -15,9 +15,6 @@ app.get('/', (req: Request, res: Response) => {
 });
 
 // HANDLE UNKNOWN ERROR ---
-interface CustomError extends Error {
-  status?: number;
-}
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   const error: CustomError = new Error(

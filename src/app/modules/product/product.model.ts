@@ -66,4 +66,4 @@ productSchema.pre('save', async function (next) {
   next();
 });
 
-export const ProductModal = model('Product', productSchema);
+export const ProductModal = model<ProductType>('Product', productSchema);
