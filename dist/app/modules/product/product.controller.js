@@ -61,7 +61,19 @@ const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
             ];
         }
         const result = yield (0, product_services_1.getAllProductFromDB)(query);
-        res.send(result);
+        if (result) {
+            res.status(200).json({
+                status: true,
+                message: 'Product retrieved successfully',
+                data: result,
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                message: 'Unable to get product',
+            });
+        }
     }
     catch (error) {
         res.status(500).json({
@@ -71,7 +83,35 @@ const getAllProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+const getSingleProductDetails = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        console.log(productId);
+        const result = yield (0, product_services_1.getProductDetailsFromDB)(productId);
+        if (result) {
+            res.status(200).json({
+                status: true,
+                message: 'Product retrieved successfully',
+                data: result,
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                message: 'Unable to get product details',
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Cannot get product details',
+            error,
+        });
+    }
+});
 exports.ProductController = {
     createProduct,
     getAllProduct,
+    getSingleProductDetails,
 };

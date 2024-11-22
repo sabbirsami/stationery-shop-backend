@@ -5,11 +5,18 @@ import {
   createProductIntoDB,
   getAllProductFromDB,
   getProductDetailsFromDB,
+  updateProductFromDB,
 } from './product.services';
 
+// CREATE PRODUCT
 const createProduct = async (req: Request, res: Response) => {
   try {
     const productData = req.body;
+    // DO SOME CHANGES
+    productData.updatedAt = new Date();
+    productData.inStock = productData.quantity > 0;
+
+    console.log(productData);
     const validateData = productValidationSchema.parse(productData);
     const result = await createProductIntoDB(validateData);
     if (result) {
@@ -40,6 +47,8 @@ const createProduct = async (req: Request, res: Response) => {
     }
   }
 };
+
+// GET ALL PRODUCT / USING QUERY
 const getAllProduct = async (req: Request, res: Response) => {
   try {
     const { searchTerm } = req.query;
@@ -74,10 +83,12 @@ const getAllProduct = async (req: Request, res: Response) => {
     });
   }
 };
+
+// GET SINGLE PRODUCT BY ID
 const getSingleProductDetails = async (req: Request, res: Response) => {
   try {
     const { productId } = req.params;
-    console.log(productId);
+
     const result = await getProductDetailsFromDB(productId);
     if (result) {
       res.status(200).json({
@@ -100,8 +111,39 @@ const getSingleProductDetails = async (req: Request, res: Response) => {
   }
 };
 
+// UPDATE PRODUCT BY ID
+const updateProduct = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const updatedData = req.body;
+
+    const result = await updateProductFromDB(productId, updatedData);
+
+    // HANDLE RESPONSE
+    if (result) {
+      res.status(200).json({
+        status: true,
+        message: 'Product updated successfully',
+        data: result,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'Unable to update product details',
+      });
+    }
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: 'Cannot update product details',
+      error,
+    });
+  }
+};
+
 export const ProductController = {
   createProduct,
   getAllProduct,
   getSingleProductDetails,
+  updateProduct,
 };

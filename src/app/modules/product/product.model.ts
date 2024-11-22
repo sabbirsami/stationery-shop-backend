@@ -60,9 +60,9 @@ productSchema.pre('save', async function (next) {
     newProduct.createdAt = new Date();
   }
 
-  newProduct.updatedAt = new Date();
   // Update inStock based on quantity
   newProduct.inStock = newProduct.quantity > 0;
+
   next();
 });
 

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllProductFromDB = exports.createProductIntoDB = void 0;
+exports.getProductDetailsFromDB = exports.getAllProductFromDB = exports.createProductIntoDB = void 0;
 const product_model_1 = require("./product.model");
 const createProductIntoDB = (product) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -37,3 +37,17 @@ const getAllProductFromDB = (query) => __awaiter(void 0, void 0, void 0, functio
     }
 });
 exports.getAllProductFromDB = getAllProductFromDB;
+const getProductDetailsFromDB = (productId) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_model_1.ProductModal.findById({ _id: productId });
+        console.log(result);
+        return result;
+    }
+    catch (error) {
+        if (error instanceof Error) {
+            throw error;
+        }
+        throw new Error(String(error));
+    }
+});
+exports.getProductDetailsFromDB = getProductDetailsFromDB;

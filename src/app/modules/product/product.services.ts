@@ -2,6 +2,7 @@ import { FilterQuery } from 'mongoose';
 import { ProductType } from './product.interface';
 import { ProductModal } from './product.model';
 
+// CREATE PRODUCT
 export const createProductIntoDB = async (product: ProductType) => {
   try {
     const result = await ProductModal.create(product);
@@ -14,6 +15,9 @@ export const createProductIntoDB = async (product: ProductType) => {
     throw new Error(String(error));
   }
 };
+
+// GET ALL PRODUCT / USING QUERY
+
 export const getAllProductFromDB = async (
   query: FilterQuery<typeof ProductModal>
 ) => {
@@ -28,10 +32,39 @@ export const getAllProductFromDB = async (
   }
 };
 
+// GET SINGLE PRODUCT BY ID
+
 export const getProductDetailsFromDB = async (productId: string) => {
   try {
     const result = await ProductModal.findById({ _id: productId });
-    console.log(result);
+
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+    throw new Error(String(error));
+  }
+};
+
+// UPDATE PRODUCT BY ID
+
+export const updateProductFromDB = async (
+  productId: string,
+  updatedData: object
+) => {
+  try {
+    const updatedDataWithUpdatedAtTime = {
+      ...updatedData,
+      updatedAt: new Date(),
+    };
+
+    const result = await ProductModal.findByIdAndUpdate(
+      productId,
+      updatedDataWithUpdatedAtTime,
+      { new: true }
+    );
+
     return result;
   } catch (error) {
     if (error instanceof Error) {
