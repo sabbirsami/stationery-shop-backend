@@ -17,7 +17,6 @@ const createProduct = async (req: Request, res: Response) => {
     productData.updatedAt = new Date();
     productData.inStock = productData.quantity > 0;
 
-    console.log(productData);
     const validateData = productValidationSchema.parse(productData);
     const result = await createProductIntoDB(validateData);
     if (result) {

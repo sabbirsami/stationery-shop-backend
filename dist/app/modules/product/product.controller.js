@@ -145,9 +145,38 @@ const updateProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         });
     }
 });
+// DELETE PRODUCT BY ID
+const deleteProduct = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { productId } = req.params;
+        const result = yield (0, product_services_1.deleteProductFromDB)(productId);
+        // HANDLE RESPONSE
+        if (result === null || result === void 0 ? void 0 : result.deletedCount) {
+            res.status(200).json({
+                status: true,
+                message: 'Product deleted successfully',
+                data: {},
+            });
+        }
+        else {
+            res.status(500).json({
+                success: false,
+                message: 'Unable to delete product details',
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Cannot delete product details',
+            error,
+        });
+    }
+});
 exports.ProductController = {
     createProduct,
     getAllProduct,
     getSingleProductDetails,
     updateProduct,
+    deleteProduct,
 };
