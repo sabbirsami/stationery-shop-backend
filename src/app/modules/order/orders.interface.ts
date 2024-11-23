@@ -3,4 +3,6 @@ export type OrderType = {
   product: string;
   quantity: number;
   totalPrice: number;
+  createdAt?: Date;
+  updatedAt?: Date;
 };
