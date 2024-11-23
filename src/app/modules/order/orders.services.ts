@@ -57,3 +57,32 @@ export const createUserOrderIntoDB = async (order: OrderType) => {
     throw new Error(String(error));
   }
 };
+
+export const getTotalRevenueIntoDB = async () => {
+  try {
+    const revenueData = await OrderModal.aggregate([
+      {
+        $project: {
+          revenue: { $multiply: ['$totalPrice', '$quantity'] },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalRevenue: { $sum: '$revenue' },
+        },
+      },
+    ]);
+
+    // console.log(revenueData);
+
+    const totalRevenue = revenueData[0]?.totalRevenue || 0;
+    return totalRevenue;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw error;
+    }
+
+    throw new Error(String(error));
+  }
+};

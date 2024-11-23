@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import { orderValidationSchema } from './orders.validations';
 import { z } from 'zod';
-import { createUserOrderIntoDB } from './orders.services';
+import {
+  createUserOrderIntoDB,
+  getTotalRevenueIntoDB,
+} from './orders.services';
 
 const createUserOrder = async (req: Request, res: Response) => {
   try {
@@ -9,6 +12,7 @@ const createUserOrder = async (req: Request, res: Response) => {
 
     // ADD UPDATE TIME
     order.updatedAt = new Date();
+    // Check VALIDATION
     const validateData = orderValidationSchema.parse(order);
 
     const result = await createUserOrderIntoDB(validateData);
@@ -38,7 +42,31 @@ const createUserOrder = async (req: Request, res: Response) => {
     }
   }
 };
+const getTotalRevenue = async (req: Request, res: Response) => {
+  try {
+    const result = await getTotalRevenueIntoDB();
+
+    res.status(200).json({
+      status: true,
+      message: 'Revenue calculated successfully',
+      totalRevenue: result,
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      res.status(400).json({
+        success: false,
+        message: error.message,
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        message: 'An unexpected error occurred',
+      });
+    }
+  }
+};
 
 export const OrderController = {
   createUserOrder,
+  getTotalRevenue,
 };
