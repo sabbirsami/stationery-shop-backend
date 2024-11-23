@@ -14,6 +14,7 @@ app.use('/api/', routes_1.default);
 app.get('/', (req, res) => {
     res.send('Bye World!');
 });
+// HANDLE UNKNOWN ERROR ---
 app.all('*', (req, res, next) => {
     const error = new Error(`Can't find ${req.originalUrl} route on the server`);
     error.status = 404;
